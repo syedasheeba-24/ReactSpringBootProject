@@ -1,0 +1,13 @@
+{
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "logout": "Logout",
+  "create-nomination-form": "Create Nomination Form",
+  "view-nomination-form": "View Nomination Form",
+  "view-nominations": "View Nominations",
+  "fill-nomination-form": "Fill Nomination Form",
+  "description-create": "Allows to create categorized form.",
+  "view-form": "Displays all saved forms categorized on various categories.",
+  "description-nomination": "Displays the submitted nominations under various categories."
+}
