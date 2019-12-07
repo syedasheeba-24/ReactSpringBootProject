@@ -74,9 +74,9 @@ public class FormController {
 
 	// Get request method that retrieves submitted nominations grouped by project
 	// category
-	@RequestMapping(method = RequestMethod.GET, value = "/get-nomination-by-group/{projectType}")
-	public List<Nomination> showNominationByGroup(@PathVariable String projectType) {
-		return nominationService.getNominationByGroupFromDaoImpl(projectType);
+	@RequestMapping(method = RequestMethod.GET, value = "/get-nomination-by-group/{idOfActivatedForm}")
+	public List<Nomination> showNominationByGroup(@PathVariable String idOfActivatedForm) {
+		return nominationService.getNominationByGroupFromDaoImpl(idOfActivatedForm);
 	}
 
 	// Get request method that receives login credentials and performs
@@ -130,6 +130,13 @@ public class FormController {
 	public Evaluation addScore(@RequestBody Evaluation evaluation) {
 		evaluationService.addScoreToEvaluationDaoImpl(evaluation);
 		return evaluation;
+	}
+
+	// Get request method that retrieves index positions of fields that are
+	// mandatory
+	@RequestMapping(method = RequestMethod.GET, value = "/get-ids/{category}")
+	public List<Integer> getFieldPositions(@PathVariable String category) {
+		return formActivationService.findFieldPosOfMandatoryField(category);
 	}
 
 }

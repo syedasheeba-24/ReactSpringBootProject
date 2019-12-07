@@ -9,7 +9,7 @@ class FillForm extends Component {
   name = "";
   constructor() {
     super();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("user");
     let loggenIn = true;
     if (token === null) {
       loggenIn = false;
@@ -60,9 +60,8 @@ class FillForm extends Component {
 
   logoutRoute = event => {
     event.preventDefault();
-    localStorage.removeItem("token");
-    let path = event.target.value;
-    this.props.history.push(path);
+    localStorage.removeItem("user");
+    this.props.history.push("/");
   };
 
   componentWillMount() {
@@ -81,17 +80,22 @@ class FillForm extends Component {
       teamName
     } = this.state;
     e.preventDefault();
-    axios
-      .post("/save-nomination", {
-        listOfNominations,
-        projectType,
-        idOfActivatedForm,
-        parentFormName,
-        teamName
-      })
-      .then(result => {
-        this.props.history.push("/options");
-      });
+    if (this.state.listOfNominations.length === 0) {
+      alert("Please ensure the fields are filled");
+    } else {
+      axios
+        .post("/save-nomination", {
+          listOfNominations,
+          projectType,
+          idOfActivatedForm,
+          parentFormName,
+          teamName
+        })
+        .then(result => {
+          localStorage.removeItem("user");
+          this.props.history.push("/");
+        });
+    }
   };
 
   render() {
@@ -101,28 +105,59 @@ class FillForm extends Component {
     }
     if (this.state.isFieldVisible) {
       return (
-        <div class="container">
+        <div>
           <div>
-            <button
-              class="btn btn-primary"
-              value="/"
-              style={{ float: "right", marginRight: "10px" }}
-              onClick={this.logoutRoute.bind(this)}
+            <div
+              class="navbar-brand"
+              style={{
+                backgroundColor: "#1890d8",
+                width: "100%",
+                position: "fixed",
+                zIndex: "1"
+              }}
             >
-              <FormattedMessage
-                id="logout"
-                defaultMessage="Logout"
-                description="Logout"
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBYZbvOamYzZSVOfiIYoR7YCSWwWjk9Ctx44eQf1ZpwIzbm1O6"
+                alt=""
+                style={{
+                  width: "8%",
+                  height: "8%"
+                }}
+                class="img-fluid"
               />
-            </button>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Fill Form</h3>
+              <a
+                href="valueOfLogout"
+                style={{
+                  float: "right",
+                  color: "white",
+                  paddingTop: "14px",
+                  paddingRight: "10px"
+                }}
+                onClick={this.logoutRoute.bind(this)}
+              >
+                Logout
+              </a>
             </div>
-            <div class="panel-body">
+          </div>
+          <div class="container">
+            <div>
+              <button
+                class="btn btn-primary"
+                value="/"
+                style={{ float: "right", marginRight: "10px" }}
+                onClick={this.logoutRoute.bind(this)}
+              >
+                <FormattedMessage
+                  id="logout"
+                  defaultMessage="Logout"
+                  description="Logout"
+                />
+              </button>
+            </div>
+
+            <div class="panel-body" style={{ paddingTop: "80px" }}>
               <form classname="form-inline" onSubmit={this.handleSubmit}>
-                <label>
+                <label style={{ fontSize: "22px" }}>
                   Choose the project Category
                   <select
                     value={this.state.value}
@@ -134,7 +169,11 @@ class FillForm extends Component {
                     ))}
                   </select>
                 </label>
-                <button type="submit" class="btn btn-primary">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style={{ marginLeft: "10px", marginBottom: "10px" }}
+                >
                   Submit
                 </button>
               </form>
@@ -165,7 +204,11 @@ class FillForm extends Component {
                   </div>
                 ))}
 
-                <button type="submit" class="btn btn-primary">
+                <button
+                  type="submit"
+                  style={{ marginLeft: "10px" }}
+                  class="btn btn-primary"
+                >
                   Submit
                 </button>
               </form>
@@ -175,44 +218,62 @@ class FillForm extends Component {
       );
     } else {
       return (
-        <div class="container">
+        <div>
           <div>
-            <button
-              class="btn btn-primary"
-              value="/"
-              style={{ float: "right", marginRight: "10px" }}
-              onClick={this.logoutRoute.bind(this)}
+            <div
+              class="navbar-brand"
+              style={{
+                backgroundColor: "#1890d8",
+                width: "100%",
+                position: "fixed",
+                zIndex: "1"
+              }}
             >
-              <FormattedMessage
-                id="logout"
-                defaultMessage="Logout"
-                description="Logout"
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBYZbvOamYzZSVOfiIYoR7YCSWwWjk9Ctx44eQf1ZpwIzbm1O6"
+                alt=""
+                style={{
+                  width: "8%",
+                  height: "8%"
+                }}
+                class="img-fluid"
               />
-            </button>
+              <a
+                href="valueOfLogout"
+                style={{
+                  float: "right",
+                  color: "white",
+                  paddingTop: "14px",
+                  paddingRight: "10px"
+                }}
+                onClick={this.logoutRoute.bind(this)}
+              >
+                Logout
+              </a>
+            </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Fill Form</h3>
-            </div>
-            <div class="panel-body">
-              <form classname="form-inline">
-                <label>
-                  Choose the project Category
-                  <select
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    style={{ marginLeft: 20 }}
-                  >
-                    {this.state.categories.map(c => (
-                      <option value={c}>{c}</option>
-                    ))}
-                  </select>
-                </label>
-                <button onClick={this.handleSubmit} class="btn btn-primary">
-                  Submit
-                </button>
-              </form>
-            </div>
+          <div class="container" style={{ paddingTop: "80px" }}>
+            <form classname="form-inline">
+              <label style={{ fontSize: "22px" }}>
+                Choose the project Category
+                <select
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  style={{ marginLeft: 20 }}
+                >
+                  {this.state.categories.map(c => (
+                    <option value={c}>{c}</option>
+                  ))}
+                </select>
+              </label>
+              <button
+                onClick={this.handleSubmit}
+                style={{ marginLeft: "10px", marginBottom: "10px" }}
+                class="btn btn-primary"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       );

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Button from "terra-button/lib/Button";
 import "./Modal.css";
 
 const modal = props => {
@@ -22,12 +22,22 @@ const modal = props => {
           <p>{props.children}</p>
         </div>
         <div className="modal-footer">
-          <button className="btn-cancel" onClick={props.close}>
-            CLOSE
-          </button>
-          <button className="btn-continue" onClick={props.submit}>
-            SUBMIT
-          </button>
+          <Button
+            style={{
+              float: "right"
+            }}
+            text="Submit"
+            variant="emphasis"
+            onClick={props.submit}
+          />
+          <Button
+            style={{
+              float: "left"
+            }}
+            text="Close"
+            variant="neutral"
+            onClick={props.close}
+          />
         </div>
       </div>
     </div>

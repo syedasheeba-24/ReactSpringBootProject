@@ -9,16 +9,28 @@ class LoginBox extends Component {
   constructor(props) {
     super(props);
     const token = localStorage.getItem("token");
+    const evaluatorToken = localStorage.getItem("evaluator");
+    const userToken = localStorage.getItem("user");
 
     let loggedIn = true;
+    let evaluatorLoggedIn = true;
+    let userLoggedIn = true;
     if (token === null) {
       loggedIn = false;
+    }
+    if (evaluatorToken === null) {
+      evaluatorLoggedIn = false;
+    }
+    if (userToken === null) {
+      userLoggedIn = false;
     }
     this.state = {
       username: "",
       password: "",
       responseCode: -2,
-      loggedIn
+      loggedIn,
+      evaluatorLoggedIn,
+      userLoggedIn
     };
   }
   onChange = event => {
@@ -34,8 +46,16 @@ class LoginBox extends Component {
       axios
         .get("/auth/" + this.state.username + "/" + this.state.password)
         .then(res => {
-          this.setState({ loggedIn: true });
-          localStorage.setItem("token", "logintoken");
+          if (res.data === 0) {
+            this.setState({ loggedIn: true });
+            localStorage.setItem("token", "admin token");
+          } else if (res.data === 1) {
+            this.setState({ evaluatorLoggedIn: true });
+            localStorage.setItem("evaluator", "evaluator token");
+          } else {
+            this.setState({ userLoggedIn: true });
+            localStorage.setItem("user", "user token");
+          }
           this.setState({ responseCode: res.data });
         });
     }
@@ -45,7 +65,10 @@ class LoginBox extends Component {
     const { username, password } = this.state;
     if (this.state.responseCode === 0 && this.state.loggedIn === true) {
       return <Redirect to="/options" />;
-    } else if (this.state.responseCode === 1 && this.state.loggedIn === true) {
+    } else if (
+      this.state.responseCode === 1 &&
+      this.state.evaluatorLoggedIn === true
+    ) {
       return (
         <Redirect
           to={{
@@ -54,7 +77,7 @@ class LoginBox extends Component {
         />
       );
     } else {
-      if (this.state.responseCode === -1) {
+      if (this.state.responseCode === -1 && this.state.userLoggedIn === true) {
         return <Redirect to="/fillform" />;
       } else {
         return (

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import "./Sample.css";
 import axios from "axios";
 
@@ -19,10 +18,10 @@ class CreateForm extends Component {
     if (
       this.state.formName === "" ||
       this.state.category === "" ||
-      this.state.fields.isEmpty
-    ) {
+      this.state.fields.length === 0
+    )
       alert("Please ensure the mandatory fields are filled");
-    } else {
+    else {
       axios
         .post("/create-forms", { fields, formName, category })
         .then(result => {
@@ -49,10 +48,12 @@ class CreateForm extends Component {
   };
 
   removeField = fieldKey => {
-    // update the state object
-    delete this.state.fields[fieldKey];
-    // set the state
-    this.setState({ fields: this.state.fields });
+    var array = [...this.state.fields];
+    var index = fieldKey;
+    if (index !== -1) {
+      array.splice(index, 1);
+      this.setState({ fields: array });
+    }
   };
   render() {
     return (
@@ -118,7 +119,12 @@ class AddFieldForm extends Component {
     var fieldType = this.refs.fieldType.value;
     var fieldLength = this.refs.fieldLength.value;
     var isMandatoryField = this.refs.isMandatoryField.value;
-    if (field.length > 0) {
+    /* if (field.length > 0) {
+      this.props.addField(field, fieldType, fieldLength, isMandatoryField);
+    }*/
+    if (field === "" || fieldLength === "") {
+      alert("Please fill all the field specifications");
+    } else {
       this.props.addField(field, fieldType, fieldLength, isMandatoryField);
     }
     this.refs.fieldForm.reset();
@@ -173,13 +179,13 @@ class AddFieldForm extends Component {
               width: "100%"
             }}
           >
-            Field Specifications:
+            * Field Specifications:
           </label>
 
           <div class="inner-form">
             <form ref="fieldForm">
               <div>
-                <label>FieldName</label>
+                <label>FieldName *</label>
                 <input
                   type="text"
                   name="fieldName"
@@ -188,7 +194,7 @@ class AddFieldForm extends Component {
                 />
               </div>
               <div>
-                <label>Field length</label>
+                <label>Field length *</label>
                 <input
                   type="text"
                   name="fieldLength"
@@ -207,7 +213,7 @@ class AddFieldForm extends Component {
               </div>
               <div>
                 <label>
-                  Select if the field should appear for evaluation..
+                  * Select if the field should appear for evaluation..
                   <select name="isMandatoryField" ref="isMandatoryField">
                     <option value="no">No</option>
                     <option value="yes">Yes</option>

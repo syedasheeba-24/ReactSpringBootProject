@@ -33,10 +33,10 @@ public class NominationService {
 		return nomination;
 	}
 
-	public List<Nomination> getNominationByGroupFromDaoImpl(String projectType) {
+	public List<Nomination> getNominationByGroupFromDaoImpl(String idOfActivatedForm) {
 		List<Nomination> nominations = new ArrayList<Nomination>();
 		try {
-			nominations = nominationRepository.findNominationByGroup(projectType);
+			nominations = nominationRepository.findNominationByGroup(idOfActivatedForm);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "No matching document found");
 		}

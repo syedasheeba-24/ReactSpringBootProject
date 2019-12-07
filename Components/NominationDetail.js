@@ -166,6 +166,7 @@ class Detail extends Component {
                           maxLength="2"
                           style={{ float: "right", width: "5%" }}
                           value={this.state.arrOfScores[index]}
+                          disabled
                         />
                       </td>
                       {/* <td>{this.state.valueOfUserName}</td>*/}

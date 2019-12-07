@@ -28,9 +28,10 @@ public class NominationDaoImpl implements NominationDao {
 	}
 
 	@Override
-	public List<Nomination> findNominationByGroup(String projectType) throws NullPointerException {
+	public List<Nomination> findNominationByGroup(String idOfActivatedForm) throws NullPointerException {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("projectType").is(projectType));
+		query.addCriteria(Criteria.where("idOfActivatedForm").is(idOfActivatedForm));
 		return mongoTemplate.find(query, Nomination.class);
 	}
+	
 }

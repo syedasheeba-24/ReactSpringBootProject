@@ -27,6 +27,12 @@ class Options extends Component {
     let path = event.target.value;
     this.props.history.push(path);
   };
+  componentDidMount() {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener("popstate", function(event) {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  }
   render() {
     if (this.state.loggenIn === false) {
       return <Redirect to="/" />;

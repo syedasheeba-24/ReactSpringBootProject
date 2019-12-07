@@ -4,6 +4,15 @@ public class Score {
 
 	String score;
 	String teamName;
+	String comment;
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 	public String getTeamName() {
 		return teamName;

@@ -1,12 +1,15 @@
 package com.project.dao.formactivation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project.dao.forms.FormDaoImpl;
 import com.project.model.FormActivation;
+import com.project.model.Field;
 import com.project.model.Form;
 
 @Service
@@ -43,6 +46,18 @@ public class FormActivationService {
 					"Cannot find activated form, please ensure the Id of form to be retreived is correct", e);
 		}
 		return form;
+	}
+
+	public List<Integer> findFieldPosOfMandatoryField(String category) throws NullPointerException {
+		Form form = getFormActivatedFromDaoImpl(category);
+		Field[] listOFields = form.getFields();
+		List<Integer> listOfPositions = new ArrayList<Integer>();
+		for (int index = 0; index < listOFields.length; index++) {
+			if (listOFields[index].getIsMandatoryField().equals("yes")) {
+				listOfPositions.add(index);
+			}
+		}
+		return listOfPositions;
 	}
 
 	public String getIdOfFormActivated() {
