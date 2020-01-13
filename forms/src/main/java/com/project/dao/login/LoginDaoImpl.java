@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
 import com.project.model.Login;
 
 @Repository
@@ -35,11 +36,10 @@ public class LoginDaoImpl implements LoginDao {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("username").is(login.getUsername()));
 		tempLogin = mongoTemplate.findOne(query, Login.class);
-		if(tempLogin!=null) {
-		tempLogin.setRole(login.getRole());
-		mongoTemplate.save(tempLogin);
-		}
-		else {
+		if (tempLogin != null) {
+			tempLogin.setRole(login.getRole());
+			mongoTemplate.save(tempLogin);
+		} else {
 			mongoTemplate.save(login);
 		}
 		return login;

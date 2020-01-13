@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.project.model.Evaluation;
-import com.project.model.Login;
 
 @Repository
 public class EvaluationDaoImpl implements EvaluationDao {
@@ -31,9 +30,9 @@ public class EvaluationDaoImpl implements EvaluationDao {
 		}
 		return evaluation;
 	}
-	
+
 	@Override
 	public List<Evaluation> getEvaluations() {
-		return mongoTemplate.findAll(Evaluation.class);	
+		return mongoTemplate.findAll(Evaluation.class);
 	}
 }

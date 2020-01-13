@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.dao.assignment.AssignmentService;
+import com.project.dao.devconscore.DevconScoreService;
 import com.project.dao.evaluation.EvaluationService;
 import com.project.dao.formactivation.FormActivationService;
 import com.project.dao.forms.FormService;
@@ -15,6 +17,8 @@ import com.project.dao.login.LoginService;
 import com.project.dao.nomination.NominationService;
 import com.project.model.FormActivation;
 import com.project.model.Login;
+import com.project.model.Assignment;
+import com.project.model.DevconScore;
 import com.project.model.Evaluation;
 import com.project.model.Form;
 import com.project.model.Nomination;
@@ -37,6 +41,12 @@ public class FormController {
 
 	@Autowired
 	EvaluationService evaluationService;
+
+	@Autowired
+	AssignmentService assignmentService;
+
+	@Autowired
+	DevconScoreService devconScoreService;
 
 	// Post request method that saves a created form into the database.
 	@RequestMapping(method = RequestMethod.POST, value = "/create-forms")
@@ -139,11 +149,33 @@ public class FormController {
 		return formActivationService.findFieldPosOfMandatoryField(category);
 	}
 
-	// Get request method that sends back list of evaluations under a specific project
-	// category
+	// Get request method that sends back list of evaluations under a specific
+	// project category
 	@RequestMapping(method = RequestMethod.GET, value = "/get-evaluations")
 	public List<Evaluation> getAllEvaluations() {
 		return evaluationService.getAllEvaluations();
+	}
+
+	// Post request method that saves data of papers assigned to the
+	// database.
+	@RequestMapping(method = RequestMethod.POST, value = "/assignPaper")
+	public Assignment assignPaper(@RequestBody Assignment assignment) {
+		assignmentService.addAssignedPaperToAssignmentDaoImpl(assignment);
+		return assignment;
+	}
+
+	// Post request method that saves data of scores assigned for different papers
+	// in the database.
+	@RequestMapping(method = RequestMethod.POST, value = "/addDevconScore")
+	public DevconScore addDevconScores(@RequestBody DevconScore devconScore) {
+		devconScoreService.addScoresToDevconScoreDaoImpl(devconScore);
+		return devconScore;
+	}
+
+	// Get request method that sends back list of scores for all the papers
+	@RequestMapping(method = RequestMethod.GET, value = "/getDevconScores")
+	public List<DevconScore> getAllDevconScores() {
+		return devconScoreService.getScoresFromDevconScoreDaoImpl();
 	}
 
 }
