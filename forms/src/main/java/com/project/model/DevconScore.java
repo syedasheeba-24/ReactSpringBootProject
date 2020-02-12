@@ -9,10 +9,11 @@ public class DevconScore {
 	@Id
 	String id;
 	String paperName, evaluatorName;
-	String[] criteria, weightage, score, comments, finalWeightedScore, totalWeightage;
+	String[] criteria, weightage, score, comments, totalWeightage;
+	String finalWeightedScore;
 
 	public DevconScore(String id, String paperName, String evaluatorName, String[] criteria, String[] weightage,
-			String[] score, String[] comments, String[] finalWeightedScore, String[] totalWeightage) {
+			String[] score, String[] comments, String finalWeightedScore, String[] totalWeightage) {
 		super();
 		this.id = id;
 		this.paperName = paperName;
@@ -85,11 +86,11 @@ public class DevconScore {
 		this.comments = comments;
 	}
 
-	public String[] getFinalWeightedScore() {
+	public String getFinalWeightedScore() {
 		return finalWeightedScore;
 	}
 
-	public void setFinalWeightedScore(String[] finalWeightedScore) {
+	public void setFinalWeightedScore(String finalWeightedScore) {
 		this.finalWeightedScore = finalWeightedScore;
 	}
 

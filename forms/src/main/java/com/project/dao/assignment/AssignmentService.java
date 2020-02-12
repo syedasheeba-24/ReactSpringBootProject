@@ -16,4 +16,9 @@ public class AssignmentService {
 		assignmentDaoImpl.assignPaper(assignment);
 		return assignment;
 	}
+	
+	public String[] getListOfPapers(String evaluatorID)
+	{
+		return assignmentDaoImpl.getPapers(evaluatorID);
+	}
 }

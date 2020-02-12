@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ import com.project.model.Nomination;
 
 @RestController
 @RequestMapping("/")
-public class FormController {
+public class FormController implements ErrorController {
 
 	@Autowired
 	FormService formService;
@@ -47,6 +48,16 @@ public class FormController {
 
 	@Autowired
 	DevconScoreService devconScoreService;
+
+	@RequestMapping("/error")
+	public String index() {
+		return "index.html";
+	}
+
+	@Override
+	public String getErrorPath() {
+		return "index.html";
+	}
 
 	// Post request method that saves a created form into the database.
 	@RequestMapping(method = RequestMethod.POST, value = "/create-forms")
@@ -162,6 +173,13 @@ public class FormController {
 	public Assignment assignPaper(@RequestBody Assignment assignment) {
 		assignmentService.addAssignedPaperToAssignmentDaoImpl(assignment);
 		return assignment;
+	}
+
+	// Get request method that retrieves list of papers assigned to specified
+	// evaluator
+	@RequestMapping(method = RequestMethod.GET, value = "/getPapers/{evaluatorID}")
+	public String[] getPapers(@PathVariable String evaluatorID) {
+		return assignmentService.getListOfPapers(evaluatorID);
 	}
 
 	// Post request method that saves data of scores assigned for different papers

@@ -11,17 +11,27 @@ public class Login {
 	String username;
 	String password;
 	String role;
-	String score;
+	String event;
+	String associateName;
 
 	public Login() {
 
 	}
 
-	public Login(String username, String password, String role, String score) {
+	public Login(String username, String password, String role, String event, String associateName) {
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		this.score = score;
+		this.event = event;
+		this.associateName = associateName;
+	}
+
+	public String getAssociateName() {
+		return associateName;
+	}
+
+	public void setAssociateName(String associateName) {
+		this.associateName = associateName;
 	}
 
 	public String getId() {
@@ -56,12 +66,12 @@ public class Login {
 		this.role = role;
 	}
 
-	public String getScore() {
-		return score;
+	public String getEvent() {
+		return event;
 	}
 
-	public void setScore(String score) {
-		this.score = score;
+	public void setEvent(String event) {
+		this.event = event;
 	}
 
 }
